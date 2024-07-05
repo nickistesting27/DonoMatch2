@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Match Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+        }
+        .container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .container input, .container button, .suggested-donation {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .container button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background: #218838;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .suggested-donation {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .suggested-donation:hover {
+            background: #0056b3;
+        }
+        .warning {
+            color: red;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Nick Robbins Logo">
+        <h1>Thank you for your support</h1>
+        <input type="number" id="donationAmount" placeholder="Enter your donation amount" />
+        <button onclick="calculateMatch()">Calculate Total Value</button>
+        <div>
+            <button class="suggested-donation" onclick="setDonation(10)">Donate $10</button>
+            <button class="suggested-donation" onclick="setDonation(50)">Donate $50</button>
+            <button class="suggested-donation" onclick="setDonation(100)">Donate $100</button>
+            <button class="suggested-donation" onclick="setDonation(175)">Donate $175</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="warning" id="warning"></div>
+    </div>
+    <script>
+        function calculateMatch() {
+            var donationAmount = document.getElementById('donationAmount').value;
+            var warningMessage = '';
+            if (donationAmount && donationAmount > 0) {
+                var matchableAmount = Math.min(donationAmount, 175);
+                var matchAmount = matchableAmount * 8;
+                var totalValue = parseFloat(donationAmount) + matchAmount;
+                document.getElementById('result').innerText = 'Total Value: $' + totalValue.toFixed(2);
+                if (donationAmount > 175) {
+                    warningMessage = 'Only the first $175 of your donation is matched.';
+                }
+            } else {
+                document.getElementById('result').innerText = 'Please enter a valid donation amount.';
+            }
+            document.getElementById('warning').innerText = warningMessage;
+        }
+
+        function setDonation(amount) {
+            document.getElementById('donationAmount').value = amount;
+            calculateMatch();
+        }
+    </script>
+</body>
+</html>
